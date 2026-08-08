@@ -135,6 +135,17 @@ ai-reviewer/
 
 ---
 
+## 🔒 Privacy & Telemetry
+
+All configuration data, API keys, and token usage analytics (the stats dashboard) are stored **STRICTLY LOCALLY** on your filesystem in `~/.ai-reviewer-config.json` and `~/.ai-reviewer-stats.json`.
+
+`ai-reviewer` is designed with a strict zero-telemetry philosophy:
+- **No External Telemetry:** The CLI does not track users, collect analytics, or "phone home" to any tracking servers.
+- **Direct API Communication:** Your code diffs and prompts are transmitted *only* directly to your chosen AI provider (Google Gemini, OpenAI, or your local Ollama instance).
+- **Offline / Local Model Support:** For maximum data privacy and air-gapped environments, configure `ai-reviewer` to use local Ollama models (`http://localhost:11434`), ensuring zero code leaves your machine.
+
+---
+
 ## 📄 License
 
 MIT
