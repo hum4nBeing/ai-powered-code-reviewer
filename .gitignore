@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment & Config Credentials
+.env
+.env.local
+.ai-reviewer-config.json
+.ai-reviewer-stats.json
+
+# Build & OS Artifacts
+dist/
+build/
+*.log
+.DS_Store
+Thumbs.db

@@ -41,3 +41,9 @@ function   calculate_something_weird ( val1 , val2 ) {
 }
 
 app.listen( 3000 ) ;
+
+// Formatting nitpick
+let temp_foo_var = 123;
+
+// Formatting nitpick
+let temp_foo_var = 123;

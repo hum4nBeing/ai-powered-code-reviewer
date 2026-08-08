@@ -1,0 +1,21 @@
+{
+    "name": "ai-reviewer",
+    "version": "1.0.0",
+    "description": "AI-powered Code Review CLI with automated false-positive revalidation",
+    "type": "module",
+    "bin": {
+        "review": "./bin/index.js"
+    },
+    "scripts": {
+        "start": "node ./bin/index.js",
+        "impact-report": "node ./scripts/run-impact-report.js"
+    },
+    "dependencies": {
+        "@google/genai": "latest",
+        "chalk": "^5.3.0",
+        "cli-table3": "^0.6.5",
+        "commander": "^12.0.0",
+        "ora": "^8.0.1",
+        "parse-diff": "^0.11.1"
+    }
+}
