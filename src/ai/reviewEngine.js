@@ -118,7 +118,10 @@ async function runReviewPipelineSingleBatch(batchDiff, provider, options = {}) {
 
   const pass1UserPrompt = `Perform code review on the following git diff:\n\n${diffText}`;
   const pass1Result = await provider.review(PASS1_SYSTEM_PROMPT, pass1UserPrompt);
-  const draftFindings = pass1Result.json || [];
+  if (!pass1Result || !Array.isArray(pass1Result.json)) {
+    throw new Error('LLM returned malformed JSON: Pass 1 response is not a valid JSON array');
+  }
+  const draftFindings = pass1Result.json;
   const pass1Usage = pass1Result.usage || { promptTokens: 0, completionTokens: 0 };
 
   onProgress('pass1_complete', `Pass 1 Complete: Found ${draftFindings.length} candidate issue(s).`, draftFindings);
@@ -144,7 +147,10 @@ async function runReviewPipelineSingleBatch(batchDiff, provider, options = {}) {
 
   const pass2UserPrompt = `Original Git Diff:\n${diffText}\n\nPass 1 Candidate Findings:\n${JSON.stringify(draftFindings, null, 2)}\n\nRe-evaluate all candidate findings and return only verified issues in JSON.`;
   const pass2Result = await provider.review(PASS2_SYSTEM_PROMPT, pass2UserPrompt);
-  const verifiedFindings = pass2Result.json || [];
+  if (!pass2Result || !Array.isArray(pass2Result.json)) {
+    throw new Error('LLM returned malformed JSON: Pass 2 response is not a valid JSON array');
+  }
+  const verifiedFindings = pass2Result.json;
   const pass2Usage = pass2Result.usage || { promptTokens: 0, completionTokens: 0 };
 
   onProgress('pass2_complete', `Pass 2 Complete: Retained ${verifiedFindings.length} verified issue(s).`, verifiedFindings);

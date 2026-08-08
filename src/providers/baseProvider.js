@@ -49,7 +49,9 @@ export class BaseProvider {
    * @returns {Array<{fileName: string, lineNumber: number, severity: string, category: string, message: string}>}
    */
   cleanAndParseJson(responseText) {
-    if (!responseText) return [];
+    if (!responseText || typeof responseText !== 'string' || !responseText.trim()) {
+      throw new Error('LLM returned malformed JSON: Empty response received');
+    }
 
     let cleaned = responseText.trim();
 
@@ -60,14 +62,16 @@ export class BaseProvider {
     const firstBracket = cleaned.indexOf('[');
     const lastBracket = cleaned.lastIndexOf(']');
 
-    if (firstBracket !== -1 && lastBracket !== -1 && lastBracket > firstBracket) {
-      cleaned = cleaned.substring(firstBracket, lastBracket + 1);
+    if (firstBracket === -1 || lastBracket === -1 || lastBracket <= firstBracket) {
+      throw new Error('LLM returned malformed JSON: Output does not contain a JSON array');
     }
+
+    cleaned = cleaned.substring(firstBracket, lastBracket + 1);
 
     try {
       const parsed = JSON.parse(cleaned);
       if (!Array.isArray(parsed)) {
-        return [];
+        throw new Error('LLM returned malformed JSON: Response is not a JSON array');
       }
 
       return parsed.map(item => ({
@@ -78,8 +82,10 @@ export class BaseProvider {
         message: String(item.message || '').trim()
       }));
     } catch (err) {
-      console.warn('Failed to parse model response as JSON array:', err.message);
-      return [];
+      if (err.message && err.message.startsWith('LLM returned malformed JSON')) {
+        throw err;
+      }
+      throw new Error(`LLM returned malformed JSON: ${err.message}`);
     }
   }
 

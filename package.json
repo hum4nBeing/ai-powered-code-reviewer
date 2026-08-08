@@ -11,7 +11,7 @@
         "impact-report": "node ./scripts/run-impact-report.js"
     },
     "dependencies": {
-        "@google/genai": "latest",
+        "@google/genai": "^2.16.0",
         "chalk": "^5.3.0",
         "cli-table3": "^0.6.5",
         "commander": "^12.0.0",
