@@ -15,5 +15,27 @@ build/
 .DS_Store
 Thumbs.db
 
-# Documentation & Summaries
+# Documentation, Agent & Tool Artifacts
 summary.md
+AGENTS.md
+agents.md
+.agents/
+TOOL_IMPACT_REPORT.md
+
+# Editor & IDE settings
+.vscode/
+.idea/
+.gemini/
+*.swp
+*.swo
+
+# Logs & Debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test Coverage
+coverage/
+.nyc_output/
+
